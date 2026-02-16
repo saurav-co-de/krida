@@ -29,6 +29,7 @@ app.use('/api/auth', authRoutes);
 app.get('/api/turfs', async (req, res) => {
   try {
     const { sport, search } = req.query;
+    console.log('Fetching turfs with query:', { sport, search });
 
     let query = { isActive: true };
 
@@ -45,10 +46,27 @@ app.get('/api/turfs', async (req, res) => {
     }
 
     const turfs = await Turf.find(query).sort({ rating: -1 });
+    console.log(`Found ${turfs.length} turfs`);
     res.json(turfs);
   } catch (error) {
     console.error('Fetch turfs error:', error);
-    res.status(500).json({ error: 'Failed to fetch turfs' });
+    res.status(500).json({ error: 'Failed to fetch turfs', details: error.message });
+  }
+});
+
+// Health check and DB status
+app.get('/api/health', async (req, res) => {
+  try {
+    const turfCount = await Turf.countDocuments();
+    const dbStatus = mongoose.connection.readyState === 1 ? 'connected' : 'disconnected';
+    res.json({
+      status: 'ok',
+      database: dbStatus,
+      turfs: turfCount,
+      env: process.env.NODE_ENV
+    });
+  } catch (error) {
+    res.status(500).json({ status: 'error', error: error.message });
   }
 });
 
