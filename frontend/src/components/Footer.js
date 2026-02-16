@@ -14,16 +14,16 @@ const Footer = () => {
               Your premier destination for booking elite sports venues and connecting with the community.
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="text-gray-400 hover:text-orange-500 transition-colors">
+              <a href="/" className="text-gray-400 hover:text-orange-500 transition-colors">
                 <FaFacebook size={20} />
               </a>
-              <a href="#" className="text-gray-400 hover:text-orange-500 transition-colors">
+              <a href="/" className="text-gray-400 hover:text-orange-500 transition-colors">
                 <FaTwitter size={20} />
               </a>
-              <a href="#" className="text-gray-400 hover:text-orange-500 transition-colors">
+              <a href="/" className="text-gray-400 hover:text-orange-500 transition-colors">
                 <FaInstagram size={20} />
               </a>
-              <a href="#" className="text-gray-400 hover:text-orange-500 transition-colors">
+              <a href="/" className="text-gray-400 hover:text-orange-500 transition-colors">
                 <FaLinkedin size={20} />
               </a>
             </div>
