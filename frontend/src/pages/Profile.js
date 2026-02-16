@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { bookingService } from '../services/api';
-import { FaUser, FaEnvelope, FaHistory, FaCalendarAlt, FaClock, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
+import { FaEnvelope, FaHistory, FaCalendarAlt, FaClock, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 
 const Profile = () => {
     const { user, logout } = useAuth();

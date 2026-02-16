@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FaBars, FaTimes, FaCalendarAlt, FaHome, FaList, FaUserAlt, FaSignOutAlt, FaSignInAlt, FaUserPlus } from 'react-icons/fa';
+import { FaBars, FaTimes, FaHome, FaList, FaUserAlt, FaSignOutAlt, FaSignInAlt, FaUserPlus } from 'react-icons/fa';
 import logo from '../assets/logo.png';
 import { useAuth } from '../context/AuthContext';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const navigate = useNavigate();
   const { user, logout } = useAuth();
 
   const toggleMenu = () => setIsOpen(!isOpen);

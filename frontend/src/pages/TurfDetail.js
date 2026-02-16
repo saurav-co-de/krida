@@ -12,6 +12,7 @@ const TurfDetail = () => {
 
   useEffect(() => {
     fetchTurf();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   const fetchTurf = async () => {

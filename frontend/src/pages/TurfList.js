@@ -26,6 +26,7 @@ const TurfList = () => {
 
   useEffect(() => {
     filterTurfs();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedSport, searchQuery, turfs]);
 
   const fetchTurfs = async () => {

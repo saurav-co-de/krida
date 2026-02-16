@@ -26,12 +26,14 @@ const Booking = () => {
     // Set default date to today
     const today = new Date().toISOString().split('T')[0];
     setSelectedDate(today);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   useEffect(() => {
     if (selectedDate && turf) {
       fetchAvailability();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedDate, turf]);
 
   const fetchTurf = async () => {
@@ -87,7 +89,7 @@ const Booking = () => {
         ...formData,
       };
 
-      const response = await bookingService.createBooking(bookingData);
+      await bookingService.createBooking(bookingData);
       toast.success('Booking confirmed successfully!');
 
       // Navigate to profile after a short delay
