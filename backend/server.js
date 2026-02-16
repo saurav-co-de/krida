@@ -277,7 +277,74 @@ app.get('/api/stats', async (req, res) => {
 
 // Health check
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'OK', message: 'Server is running' });
+  const dbStatus = mongoose.connection.readyState === 1 ? 'connected' : 'disconnected';
+  res.json({ status: 'OK', message: 'Server is running', database: dbStatus });
+});
+
+// EMERGENCY SEED ROUTE (To bypass local network blocks)
+app.get('/api/seed-force', async (req, res) => {
+  try {
+    const turfs = [
+      {
+        name: 'Smash & Dash Badminton',
+        sport: 'badminton',
+        location: 'Koramangala, Bangalore',
+        pricePerHour: 400,
+        capacity: 4,
+        image: 'https://images.unsplash.com/photo-1626224583764-847890e0e966?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+        description: 'Professional wooden courts with excellent lighting and ventilation.',
+        openTime: '06:00',
+        closeTime: '23:00',
+        isActive: true,
+        rating: 4.8
+      },
+      {
+        name: 'Greenfield Cricket Ground',
+        sport: 'cricket',
+        location: 'Marathahalli, Bangalore',
+        pricePerHour: 1200,
+        capacity: 22,
+        image: 'https://images.unsplash.com/photo-1531415074968-036ba1b575da?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+        description: 'Full-sized cricket ground with natural turf wicket and pavilion.',
+        openTime: '06:00',
+        closeTime: '18:00',
+        isActive: true,
+        rating: 4.5
+      },
+      {
+        name: 'Ace Tennis Academy',
+        sport: 'tennis',
+        location: 'Indiranagar, Bangalore',
+        pricePerHour: 800,
+        capacity: 4,
+        image: 'https://images.unsplash.com/photo-1595435934249-5df7ed86e1c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+        description: 'Synthetic hard courts with floodlights for night play.',
+        openTime: '05:00',
+        closeTime: '22:00',
+        isActive: true,
+        rating: 4.7
+      },
+      {
+        name: 'Kickoff Football Arena',
+        sport: 'football',
+        location: 'Whitefield, Bangalore',
+        pricePerHour: 1500,
+        capacity: 14,
+        image: 'https://images.unsplash.com/photo-1575361204480-aadea25e6e68?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+        description: 'FIFA standard aritificial turf suitable for 5-a-side and 7-a-side games.',
+        openTime: '06:00',
+        closeTime: '23:59',
+        isActive: true,
+        rating: 4.9
+      }
+    ];
+
+    await Turf.deleteMany({});
+    await Turf.insertMany(turfs);
+    res.json({ success: true, message: 'Database seeded successfully via remote force!', count: turfs.length });
+  } catch (error) {
+    res.status(500).json({ error: 'Seeding failed', details: error.message });
+  }
 });
 
 // Only listen if not running as a Vercel serverless function
