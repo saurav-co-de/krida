@@ -2,6 +2,9 @@
   "name": "krida-backend",
   "version": "1.0.0",
   "description": "Backend for KRIDA Application",
+  "engines": {
+    "node": "18.x"
+  },
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
