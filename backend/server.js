@@ -27,6 +27,14 @@ if (!process.env.VERCEL) {
 app.use(cors());
 app.use(bodyParser.json());
 
+// Log every request in production
+app.use((req, res, next) => {
+  if (process.env.NODE_ENV === 'production') {
+    console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
+  }
+  next();
+});
+
 // API Routes
 app.use('/api/auth', authRoutes);
 
