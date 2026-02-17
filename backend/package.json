@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Backend for KRIDA Application",
   "engines": {
-    "node": "24.x"
+    "node": "20.x"
   },
   "main": "server.js",
   "scripts": {
