@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const mongoose = require('mongoose');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const connectDB = require('./config/database');
@@ -275,11 +276,6 @@ app.get('/api/stats', async (req, res) => {
   }
 });
 
-// Health check
-app.get('/api/health', (req, res) => {
-  const dbStatus = mongoose.connection.readyState === 1 ? 'connected' : 'disconnected';
-  res.json({ status: 'OK', message: 'Server is running', database: dbStatus });
-});
 
 // EMERGENCY SEED ROUTE (To bypass local network blocks)
 app.get('/api/seed-force', async (req, res) => {

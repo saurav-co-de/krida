@@ -6,6 +6,13 @@ const Booking = require('./models/Booking');
 
 dotenv.config();
 
+// Override DNS servers to allow SRV resolution for MongoDB Atlas in restricted environments
+const dns = require('dns');
+if (typeof dns.setServers === 'function') {
+    dns.setServers(['8.8.8.8', '8.8.4.4']);
+}
+
+
 const initialTurfs = [
     {
         name: 'Green Valley Cricket Ground',

@@ -4,6 +4,13 @@ const dotenv = require('dotenv');
 // Load env from current folder
 dotenv.config();
 
+// Override DNS servers to allow SRV resolution for MongoDB Atlas in restricted environments
+const dns = require('dns');
+if (typeof dns.setServers === 'function') {
+    dns.setServers(['8.8.8.8', '8.8.4.4']);
+}
+
+
 const checkDeployment = async () => {
     console.log('--- DIAGNOSTIC TOOL INITIALIZED ---');
 
