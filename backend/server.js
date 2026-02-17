@@ -16,8 +16,12 @@ const PORT = process.env.PORT || 5000;
 // Connect to Database
 connectDB();
 
-// Initialize Scheduler
-initEmailScheduler();
+// Initialize Scheduler (Only if not on Vercel)
+if (!process.env.VERCEL) {
+  initEmailScheduler();
+} else {
+  console.log('Vercel environment detected: Email scheduler disabled.');
+}
 
 // Middleware
 app.use(cors());
