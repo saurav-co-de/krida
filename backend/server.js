@@ -58,17 +58,54 @@ app.get('/api/turfs', async (req, res) => {
 // Health check and DB status
 app.get('/api/health', async (req, res) => {
   try {
-    const turfCount = await Turf.countDocuments();
-    const dbStatus = mongoose.connection.readyState === 1 ? 'connected' : 'disconnected';
+    // Basic status info
+    const dbState = mongoose.connection.readyState;
+    const dbStatusMap = { 0: 'disconnected', 1: 'connected', 2: 'connecting', 3: 'disconnecting' };
+
+    // Detailed stats
+    let turfCount = 0;
+    try {
+      if (dbState === 1) {
+        turfCount = await Turf.countDocuments();
+      }
+    } catch (e) {
+      console.error('Count check failed:', e);
+    }
+
     res.json({
       status: 'ok',
-      database: dbStatus,
-      turfs: turfCount,
-      env: process.env.NODE_ENV
+      timestamp: new Date().toISOString(),
+      database: {
+        readyState: dbState,
+        status: dbStatusMap[dbState] || 'unknown',
+        name: mongoose.connection.name,
+        host: mongoose.connection.host,
+      },
+      counts: {
+        turfs: turfCount,
+      },
+      environment: {
+        node_env: process.env.NODE_ENV,
+        vercel: !!process.env.VERCEL,
+        has_mongo_uri: !!process.env.MONGODB_URI,
+        has_jwt_secret: !!process.env.JWT_SECRET
+      }
     });
   } catch (error) {
     res.status(500).json({ status: 'error', error: error.message });
   }
+});
+
+// Extra debug route to check environment (SAFE - only shows presence, not values)
+app.get('/api/debug-env', (req, res) => {
+  res.json({
+    MONGODB_URI_EXISTS: !!process.env.MONGODB_URI,
+    JWT_SECRET_EXISTS: !!process.env.JWT_SECRET,
+    JWT_EXPIRE: process.env.JWT_EXPIRE || 'NOT SET (Defaulting to 30d internally)',
+    NODE_ENV: process.env.NODE_ENV,
+    VERCEL: process.env.VERCEL,
+    MONGODB_URI_PREFIX: process.env.MONGODB_URI ? process.env.MONGODB_URI.split(':')[0] : 'N/A'
+  });
 });
 
 // Get single turf
