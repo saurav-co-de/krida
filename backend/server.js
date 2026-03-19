@@ -25,19 +25,31 @@ if (!process.env.VERCEL) {
 }
 
 // Middleware
-// Middleware
+// Improved CORS with explicit logging for debugging
 const corsOptions = {
   origin: function (origin, callback) {
-    const allowedOrigins = [process.env.FRONTEND_URL, 'http://localhost:3000', 'http://localhost:5173'];
-    if (!origin || allowedOrigins.includes(origin.replace(/\/$/, '')) || !process.env.FRONTEND_URL) {
+    const allowedOrigins = [
+      process.env.FRONTEND_URL,
+      'http://localhost:3000',
+      'http://localhost:5173'
+    ].filter(Boolean).map(o => o.replace(/\/$/, ''));
+
+    // Log the attempt
+    if (process.env.NODE_ENV === 'production' && origin) {
+      console.log(`CORS request from: ${origin}`);
+    }
+
+    if (!origin || allowedOrigins.includes(origin.replace(/\/$/, '')) || !process.env.FRONTEND_URL || process.env.FRONTEND_URL === '*') {
       callback(null, true);
     } else {
+      console.error(`CORS BLOCKED for origin: ${origin}. Expected one of: ${allowedOrigins.join(', ')}`);
       callback(new Error('Not allowed by CORS'));
     }
   },
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true
+  credentials: true,
+  optionsSuccessStatus: 200
 };
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
