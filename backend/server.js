@@ -7,6 +7,7 @@ const connectDB = require('./config/database');
 const Turf = require('./models/Turf');
 const Booking = require('./models/Booking');
 const authRoutes = require('./routes/auth');
+const ownerRoutes = require('./routes/owner');
 const initEmailScheduler = require('./jobs/emailScheduler');
 const { sendBookingConfirmation, sendCancellationEmail } = require('./services/emailService');
 
@@ -24,7 +25,14 @@ if (!process.env.VERCEL) {
 }
 
 // Middleware
-app.use(cors());
+// Middleware
+const corsOptions = {
+  origin: process.env.FRONTEND_URL || '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
+};
+app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
 // Log every request in production
@@ -37,6 +45,7 @@ app.use((req, res, next) => {
 
 // API Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/owner', ownerRoutes);
 
 // Get all turfs
 app.get('/api/turfs', async (req, res) => {

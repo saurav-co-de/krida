@@ -53,6 +53,11 @@ const turfSchema = new mongoose.Schema({
     isActive: {
         type: Boolean,
         default: true,
+    },
+    owner: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: false, // For existing turfs, we might not have an owner yet
     }
 }, {
     timestamps: true,

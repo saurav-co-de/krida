@@ -2,9 +2,7 @@ import axios from 'axios';
 
 // In production (Vercel), api is served from the same origin at /api
 // In development, we use localhost:5000/api
-const API_URL = process.env.NODE_ENV === 'production'
-  ? '/api'
-  : (process.env.REACT_APP_API_URL || 'http://localhost:5001/api');
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5001/api';
 
 const api = axios.create({
   baseURL: API_URL,
@@ -66,6 +64,26 @@ export const bookingService = {
 export const statsService = {
   // Get stats
   getStats: () => api.get('/stats'),
+};
+
+export const ownerService = {
+  // Get owner turfs
+  getTurfs: () => api.get('/owner/turfs'),
+
+  // Create turf
+  createTurf: (turfData) => api.post('/owner/turfs', turfData),
+
+  // Update turf
+  updateTurf: (id, turfData) => api.put(`/owner/turfs/${id}`, turfData),
+
+  // Delete turf
+  deleteTurf: (id) => api.delete(`/owner/turfs/${id}`),
+
+  // Get owner bookings
+  getBookings: () => api.get('/owner/bookings'),
+
+  // Get owner stats
+  getStats: () => api.get('/owner/stats'),
 };
 
 export default api;

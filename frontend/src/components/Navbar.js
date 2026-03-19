@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FaBars, FaTimes, FaHome, FaList, FaUserAlt, FaSignOutAlt, FaSignInAlt, FaUserPlus } from 'react-icons/fa';
+import { FaBars, FaTimes, FaHome, FaList, FaUserAlt, FaSignOutAlt, FaSignInAlt, FaUserPlus, FaBuilding } from 'react-icons/fa';
 import logo from '../assets/logo.png';
 import { useAuth } from '../context/AuthContext';
 
@@ -42,6 +42,12 @@ const Navbar = () => {
                   <FaUserAlt className="text-orange-600" />
                   <span>{user.name.split(' ')[0]}</span>
                 </Link>
+                {(user.role === 'owner' || user.role === 'admin') && (
+                  <Link to="/owner" className="flex items-center space-x-1 text-gray-700 hover:text-[#f05a28] transition-colors font-semibold">
+                    <FaBuilding className="text-[#f05a28]" />
+                    <span>Owner Panel</span>
+                  </Link>
+                )}
                 <button
                   onClick={logout}
                   className="flex items-center space-x-1 bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition-all shadow-md transform hover:scale-105 active:scale-95 text-sm font-bold"
@@ -113,6 +119,16 @@ const Navbar = () => {
                     <FaUserAlt className="text-orange-600" />
                     <span>My Profile</span>
                   </Link>
+                  {(user.role === 'owner' || user.role === 'admin') && (
+                    <Link
+                      to="/owner"
+                      onClick={toggleMenu}
+                      className="flex items-center space-x-2 px-3 py-2 rounded-md text-gray-700 hover:bg-orange-50 hover:text-orange-600 transition-colors"
+                    >
+                      <FaBuilding className="text-orange-600" />
+                      <span>Owner Panel</span>
+                    </Link>
+                  )}
                   <button
                     onClick={() => {
                       logout();

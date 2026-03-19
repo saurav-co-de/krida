@@ -8,6 +8,7 @@ const Signup = () => {
         email: '',
         password: '',
         confirmPassword: '',
+        role: 'user',
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [localError, setLocalError] = useState('');
@@ -34,6 +35,7 @@ const Signup = () => {
             name: formData.name,
             email: formData.email,
             password: formData.password,
+            role: formData.role
         });
         setIsSubmitting(false);
 
@@ -121,6 +123,21 @@ const Signup = () => {
                                 className="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-red-500 focus:border-red-500 focus:z-10 sm:text-sm"
                                 placeholder="••••••••"
                             />
+                        </div>
+                        <div>
+                            <label htmlFor="role" className="block text-sm font-medium text-gray-700 mb-1">
+                                Register as
+                            </label>
+                            <select
+                                id="role"
+                                name="role"
+                                value={formData.role}
+                                onChange={handleChange}
+                                className="appearance-none relative block w-full px-3 py-3 border border-gray-300 bg-white text-gray-900 rounded-lg focus:outline-none focus:ring-red-500 focus:border-red-500 focus:z-10 sm:text-sm"
+                            >
+                                <option value="user">Player / Customer</option>
+                                <option value="owner">Turf Owner / Manager</option>
+                            </select>
                         </div>
                     </div>
 

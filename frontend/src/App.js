@@ -15,6 +15,12 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Profile from './pages/Profile';
 import PrivateRoute from './components/PrivateRoute';
+// Owner Pages
+import OwnerLayout from './pages/owner/OwnerLayout';
+import OwnerDashboard from './pages/owner/Dashboard';
+import OwnerVenues from './pages/owner/Venues';
+import OwnerBookings from './pages/owner/Bookings';
+import OwnerAnalytics from './pages/owner/Analytics';
 
 function App() {
   return (
@@ -42,6 +48,19 @@ function App() {
                 element={
                   <PrivateRoute>
                     <Booking />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/owner/*"
+                element={
+                  <PrivateRoute roles={['owner', 'admin']}>
+                    <Routes>
+                      <Route path="/" element={<OwnerLayout title="Dashboard"><OwnerDashboard /></OwnerLayout>} />
+                      <Route path="/venues" element={<OwnerLayout title="My Turfs"><OwnerVenues /></OwnerLayout>} />
+                      <Route path="/bookings" element={<OwnerLayout title="Bookings"><OwnerBookings /></OwnerLayout>} />
+                      <Route path="/analytics" element={<OwnerLayout title="Analytics"><OwnerAnalytics /></OwnerLayout>} />
+                    </Routes>
                   </PrivateRoute>
                 }
               />
