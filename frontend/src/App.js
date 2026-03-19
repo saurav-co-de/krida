@@ -21,6 +21,7 @@ import OwnerDashboard from './pages/owner/Dashboard';
 import OwnerVenues from './pages/owner/Venues';
 import OwnerBookings from './pages/owner/Bookings';
 import OwnerAnalytics from './pages/owner/Analytics';
+import Diagnostic from './pages/Diagnostic';
 
 function App() {
   return (
@@ -64,6 +65,7 @@ function App() {
                   </PrivateRoute>
                 }
               />
+              <Route path="/diagnostic" element={<Diagnostic />} />
             </Routes>
           </main>
           <Footer />
